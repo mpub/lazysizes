@@ -183,6 +183,27 @@
 	}
 
 	addEventListener('lazybeforesizes', function(e){
+		var elem, src, elemOpts, max_width_allowed;
+
+		/* find the options for our element */
+		elem = e.target;
+		src = getSrc(elem);
+		elemOpts = createAttrObject(elem, src);
+
+		/* find the maximum width specified */
+		max_width_allowed = Math.max.apply(null, elemOpts.widths);
+
+		/* never allow sizes to be set to a width higher than the maximum width image we have.
+		*
+		* This stops some upscaling on Firefox and Chrome as they use the sizes
+		* attribute to set the intrinsic width/height of an image. If no CSS rules
+		* (or just a max-with) are used, small images get upscaled.
+		*
+		*/
+		e.detail.width = Math.min(max_width_allowed, e.detail.width);
+	});
+
+	addEventListener('lazybeforesizes', function(e){
 		var elem, src, elemOpts, parent, sources, i, len, sourceSrc, sizes, detail, hasPlaceholder, modified, emptyList;
 		elem = e.target;
 
