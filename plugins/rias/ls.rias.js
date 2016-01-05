@@ -117,7 +117,7 @@
 
 		var elemStyles = window.getComputedStyle(elem);
 		var aspectRatio = elemStyles.getPropertyValue('--aspect-ratio') || '';
-		options['aspectRatio'] = aspectRatio;
+		options['aspectRatio'] = aspectRatio.trim();
 
 		return options;
 	}
