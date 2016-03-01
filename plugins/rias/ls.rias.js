@@ -161,6 +161,7 @@
 			elem.removeAttribute(config.srcsetAttr);
 		} else {
 			elem.setAttribute(config.srcsetAttr, src.srcset.join(', '));
+			elem.setAttribute('src', src.srcset[src.srcset.length-1]);
 		}
 
 		Object.defineProperty(elem, '_lazyrias', {
