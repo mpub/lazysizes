@@ -9,7 +9,6 @@
 	var regNumber = /^\-*\+*\d+\.*\d*$/;
 	var regPicture = /^picture$/i;
 	var regWidth = /\s*\{\s*width\s*\}\s*/i;
-	var regHeight = /\s*\{\s*height\s*\}\s*/i;
 	var regPlaceholder = /\s*\{\s*([a-z0-9]+)\s*\}\s*/ig;
 	var regObj = /^\[.*\]|\{.*\}$/;
 	var regAllowedSizes = /^(?:auto|\d+(px)?)$/;
@@ -27,8 +26,7 @@
 			srcAttr: 'data-src',
 			absUrl: false,
 			modifyOptions: noop,
-			widthmap: {},
-			ratio: false
+			widthmap: {}
 		};
 
 		config = (window.lazySizes && lazySizes.cfg) || window.lazySizesConfig;
@@ -133,10 +131,8 @@
 		url = ((options.prefix || '') + url + (options.postfix || '')).replace(regPlaceholder, replaceFn);
 
 		options.widths.forEach(function(width){
-			width = options.widthmap[width] || width;
 			var candidate = {
-				u: url.replace(regWidth, width)
-						.replace(regHeight, options.ratio ? Math.round(width * options.ratio) : ''),
+				u: url.replace(regWidth, options.widthmap[width] || width),
 				w: width
 			};
 
@@ -149,21 +145,6 @@
 	function setSrc(src, opts, elem){
 
 		if(!src){return;}
-
-		if (opts.ratio === 'container') {
-			// calculate image or parent ratio
-			var sizeElement = elem;
-			var elemW = sizeElement.scrollWidth;
-			var elemH = sizeElement.scrollHeight;
-			while ((elemW === 0 || elemH === 0) && sizeElement !== document) {
-				sizeElement = sizeElement.parentNode;
-				elemW = sizeElement.scrollWidth;
-				elemH = sizeElement.scrollHeight;
-			}
-			if (elemW !== 0 && elemH !== 0) {
-				opts.ratio = elemH / elemW;
-			}
-		}
 
 		src = replaceUrlProps(src, opts);
 
