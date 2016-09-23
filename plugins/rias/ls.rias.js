@@ -147,21 +147,20 @@
 	}
 
 	function setSrc(src, opts, elem){
-		var elemW = 0, elemH = 0;
 
 		if(!src){return;}
 
 		if (opts.ratio === 'container') {
 			// calculate image or parent ratio
 			var sizeElement = elem;
-			elemW = sizeElement.scrollWidth;
-			elemH = sizeElement.scrollHeight;
-			while ((!elemW || !elemH) && sizeElement !== document) {
+			var elemW = sizeElement.scrollWidth;
+			var elemH = sizeElement.scrollHeight;
+			while ((elemW === 0 || elemH === 0) && sizeElement !== document) {
 				sizeElement = sizeElement.parentNode;
 				elemW = sizeElement.scrollWidth;
 				elemH = sizeElement.scrollHeight;
 			}
-			if (elemW && elemH) {
+			if (elemW !== 0 && elemH !== 0) {
 				opts.ratio = elemH / elemW;
 			}
 		}
