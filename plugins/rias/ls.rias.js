@@ -182,7 +182,7 @@
 		return elem.getAttribute( elem.getAttribute('data-srcattr') || riasCfg.srcAttr ) || elem.getAttribute(config.srcsetAttr) || elem.getAttribute(config.srcAttr) || elem.getAttribute('data-pfsrcset') || '';
 	}
 
-	addEventListener('lazybeforesizes', function(e){
+        function clampSizesToMax(e) {
 		var elem, src, elemOpts, max_width_allowed;
 
 		/* find the options for our element */
@@ -201,10 +201,11 @@
 		*
 		*/
 		e.detail.width = Math.min(max_width_allowed, e.detail.width);
-	});
+	}
 
 	addEventListener('lazybeforesizes', function(e){
 		var elem, src, elemOpts, parent, sources, i, len, sourceSrc, sizes, detail, hasPlaceholder, modified, emptyList;
+		clampSizesToMax(e);
 		elem = e.target;
 
 		if(!e.detail.dataAttr || e.defaultPrevented || riasCfg.disabled || !((sizes = elem.getAttribute(config.sizesAttr) || elem.getAttribute('sizes')) && regAllowedSizes.test(sizes))){return;}
