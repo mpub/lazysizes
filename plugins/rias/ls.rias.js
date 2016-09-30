@@ -9,6 +9,7 @@
 	var regNumber = /^\-*\+*\d+\.*\d*$/;
 	var regPicture = /^picture$/i;
 	var regWidth = /\s*\{\s*width\s*\}\s*/i;
+	var regHeight = /\s*\{\s*height\s*\}\s*/i;
 	var regAspectRatio = /\s*\{\s*aspect-ratio\s*\}\s*/i;
 	var regPlaceholder = /\s*\{\s*([a-z0-9]+)\s*\}\s*/ig;
 	var regObj = /^\[.*\]|\{.*\}$/;
@@ -138,7 +139,8 @@
 
 		options.widths.forEach(function(width){
 			var candidate = {
-				u: url.replace(regWidth, options.widthmap[width] || width).replace(regAspectRatio, options['aspectRatio']),
+				u: url.replace(regWidth, options.widthmap[width] || width).replace(regAspectRatio, options['aspectRatio'])
+                                                    .replace(regHeight, options['aspectRatio'] ? Math.round(width * options['aspectRatio']) : ''),
 				w: width
 			};
 
